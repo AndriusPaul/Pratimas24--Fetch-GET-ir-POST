@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+      integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="wrapper">
+        <h1>Property List</h1>
+        <h2>See all the houses you want!</h2>
+      </div>
+    </header>
+    <section class="form-container wrapper">
+      <div>
+        <h3>Add Property</h3>
+      </div>
+      <form id="add-property-form">
+        <label for="img">IMG</label>
+        <input
+          type="img"
+          id="img"
+          name="img"
+          placeholder="https://www.google.com/logo"
+        />
+        <label for="price">Price,EUR</label>
+        <input type="number" id="price" name="price" placeholder="50000" />
+        <label for="saleDescription">Description</label>
+        <input
+          type="text"
+          id="saleDescription"
+          name="description"
+          placeholder="anything you would like to say?"
+        />
+        <select name="city" id="saleCity">
+          <!-- Generated list here -->
+          <option value="Vilnius">Vilnius</option>
+          <option value="Kaunas">Kaunas</option>
+          <option value="Klaipeda">Klaipeda</option>
+          <option value="Siauliai">Siauliai</option>
+        </select>
+        <button type="submit" class="addPropertyButton">Add Property</button>
+      </form>
+      <div class="statusMessage">
+        <!-- display server Message -->
+      </div>
+    </section>
+    <script>
+      document.querySelector("form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const image = document.getElementById("img").value;
+        const price = document.getElementById("price").value;
+        const description = document.getElementById("saleDescription").value;
+        const city = document.getElementById("saleCity").value;
+
+        const houses = {
+          image: image,
+          city: city,
+          price: price,
+          description: description,
+        };
+        fetch("https://localhost:7205/House", {
+          method: "POST",
+          body: JSON.stringify(houses),
+          headers: {
+            Accept: "text/json",
+            "Content-Type": "application/json",
+          },
+        }).then((res) => {
+          if (res.ok) {
+            alert("Uzklausa sekminga");
+            window.location.replace("index.html");
+          } else {
+            alert("Uzklausa nesekminga");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
